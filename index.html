@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to SVG Animation Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .subtitle {
+            font-weight: 300;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .controls {
+            flex: 1;
+            min-width: 300px;
+            padding: 25px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-right: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .preview {
+            flex: 2;
+            min-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #4b6cb7;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        input[type="color"] {
+            height: 50px;
+            cursor: pointer;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #e0e0e0;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4b6cb7;
+            cursor: pointer;
+        }
+
+        button {
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 14px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .range-value {
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: #4b6cb7;
+        }
+
+        .svg-container {
+            width: 100%;
+            height: 300px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+
+        .download-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .download-options button {
+            flex: 1;
+        }
+
+        #svg-output {
+            width: 100%;
+            height: 100%;
+        }
+
+        .instructions {
+            background-color: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .instructions h3 {
+            color: #4b6cb7;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .animation-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .animation-controls button {
+            flex: 1;
+        }
+
+        #restart-animation {
+            background: linear-gradient(90deg, #FF512F 0%, #DD2476 100%);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .controls {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .download-options, .animation-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Text to SVG Animation Generator</h1>
+            <p class="subtitle">Create stunning SVG text animations with custom fonts and colors</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="controls">
+                <div class="control-group">
+                    <h2>Text Settings</h2>
+                    <label for="text-input">Your Text</label>
+                    <input type="text" id="text-input" value="SVG Animation" placeholder="Enter your text here">
+                    
+                    <label for="font-family">Font Family</label>
+                    <select id="font-family">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Impact">Impact</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Poppins">Poppins</option>
+                        <option value="Roboto">Roboto</option>
+                    </select>
+                    
+                    <label for="font-size">Font Size</label>
+                    <div class="range-container">
+                        <input type="range" id="font-size" min="20" max="120" value="48">
+                        <span id="font-size-value" class="range-value">48</span>px
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h2>Color Settings</h2>
+                    <label for="stroke-color">Stroke Color</label>
+                    <input type="color" id="stroke-color" value="#4b6cb7">
+                    
+                    <label for="fill-color">Fill Color</label>
+                    <input type="color" id="fill-color" value="#182848">
+                    
+                    <label for="stroke-width">Stroke Width</label>
+                    <div class="range-container">
+                        <input type="range" id="stroke-width" min="1" max="10" value="2">
+                        <span id="stroke-width-value" class="range-value">2</span>px
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h2>Animation Settings</h2>
+                    <label for="stroke-duration">Stroke Duration</label>
+                    <div class="range-container">
+                        <input type="range" id="stroke-duration" min="1" max="10" value="3">
+                        <span id="stroke-duration-value" class="range-value">3</span>s
+                    </div>
+                    
+                    <label for="fill-duration">Fill Duration</label>
+                    <div class="range-container">
+                        <input type="range" id="fill-duration" min="1" max="10" value="2">
+                        <span id="fill-duration-value" class="range-value">2</span>s
+                    </div>
+                    
+                    <label for="animation-delay">Animation Delay</label>
+                    <div class="range-container">
+                        <input type="range" id="animation-delay" min="0" max="5" value="0.5" step="0.5">
+                        <span id="animation-delay-value" class="range-value">0.5</span>s
+                    </div>
+                </div>
+                
+                <button id="generate-btn">Generate Animation</button>
+                
+                <div class="instructions">
+                    <h3>How to Use</h3>
+                    <ul>
+                        <li>Enter your text and customize the settings</li>
+                        <li>Click "Generate Animation" to create your SVG</li>
+                        <li>Use the "Restart Animation" button to replay</li>
+                        <li>Download buttons save your animation</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="preview">
+                <h2>Preview</h2>
+                <div class="svg-container">
+                    <svg id="svg-output" viewBox="0 0 500 150" preserveAspectRatio="xMidYMid meet">
+                        <!-- SVG content will be generated here -->
+                    </svg>
+                </div>
+                
+                <div class="animation-controls">
+                    <button id="restart-animation">Restart Animation</button>
+                </div>
+                
+                <div class="download-options">
+                    <button id="download-svg">Download SVG</button>
+                    <button id="download-png">Download as PNG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const textInput = document.getElementById('text-input');
+        const fontFamily = document.getElementById('font-family');
+        const fontSize = document.getElementById('font-size');
+        const fontSizeValue = document.getElementById('font-size-value');
+        const strokeColor = document.getElementById('stroke-color');
+        const fillColor = document.getElementById('fill-color');
+        const strokeWidth = document.getElementById('stroke-width');
+        const strokeWidthValue = document.getElementById('stroke-width-value');
+        const strokeDuration = document.getElementById('stroke-duration');
+        const strokeDurationValue = document.getElementById('stroke-duration-value');
+        const fillDuration = document.getElementById('fill-duration');
+        const fillDurationValue = document.getElementById('fill-duration-value');
+        const animationDelay = document.getElementById('animation-delay');
+        const animationDelayValue = document.getElementById('animation-delay-value');
+        const generateBtn = document.getElementById('generate-btn');
+        const svgOutput = document.getElementById('svg-output');
+        const downloadSvgBtn = document.getElementById('download-svg');
+        const downloadPngBtn = document.getElementById('download-png');
+        const restartAnimationBtn = document.getElementById('restart-animation');
+
+        // Update range values display
+        fontSize.addEventListener('input', () => {
+            fontSizeValue.textContent = fontSize.value;
+        });
+
+        strokeWidth.addEventListener('input', () => {
+            strokeWidthValue.textContent = strokeWidth.value;
+        });
+
+        strokeDuration.addEventListener('input', () => {
+            strokeDurationValue.textContent = strokeDuration.value;
+        });
+
+        fillDuration.addEventListener('input', () => {
+            fillDurationValue.textContent = fillDuration.value;
+        });
+
+        animationDelay.addEventListener('input', () => {
+            animationDelayValue.textContent = animationDelay.value;
+        });
+
+        // Generate animation
+        generateBtn.addEventListener('click', generateAnimation);
+
+        // Restart animation
+        restartAnimationBtn.addEventListener('click', restartAnimation);
+
+        function generateAnimation() {
+            const text = textInput.value || 'SVG Animation';
+            const font = fontFamily.value;
+            const size = fontSize.value;
+            const strokeCol = strokeColor.value;
+            const fillCol = fillColor.value;
+            const width = strokeWidth.value;
+            const strokeDur = strokeDuration.value;
+            const fillDur = fillDuration.value;
+            const delay = animationDelay.value;
+
+            // Clear previous SVG content
+            svgOutput.innerHTML = '';
+            
+            // Calculate text width for viewBox adjustment
+            const textWidth = text.length * (size / 2);
+            const viewBoxWidth = Math.max(500, textWidth + 100);
+            svgOutput.setAttribute('viewBox', `0 0 ${viewBoxWidth} 150`);
+            
+            // Create text element
+            const textElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            textElement.setAttribute('x', '50%');
+            textElement.setAttribute('y', '50%');
+            textElement.setAttribute('dy', '0.35em');
+            textElement.setAttribute('text-anchor', 'middle');
+            textElement.setAttribute('font-family', font);
+            textElement.setAttribute('font-size', size);
+            textElement.setAttribute('fill', fillCol);
+            textElement.setAttribute('stroke', strokeCol);
+            textElement.setAttribute('stroke-width', width);
+            textElement.setAttribute('id', 'animated-text');
+            textElement.textContent = text;
+            
+            // Add animation for stroke
+            const animateStroke = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            animateStroke.setAttribute('attributeName', 'stroke-dashoffset');
+            animateStroke.setAttribute('from', '500');
+            animateStroke.setAttribute('to', '0');
+            animateStroke.setAttribute('dur', `${strokeDur}s`);
+            animateStroke.setAttribute('fill', 'freeze');
+            animateStroke.setAttribute('id', 'stroke-animation');
+            textElement.appendChild(animateStroke);
+            
+            // Add animation for fill
+            const animateFill = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            animateFill.setAttribute('attributeName', 'fill');
+            animateFill.setAttribute('from', 'transparent');
+            animateFill.setAttribute('to', fillCol);
+            animateFill.setAttribute('begin', `${delay}s`);
+            animateFill.setAttribute('dur', `${fillDur}s`);
+            animateFill.setAttribute('fill', 'freeze');
+            animateFill.setAttribute('id', 'fill-animation');
+            textElement.appendChild(animateFill);
+            
+            // Set stroke dash properties for animation
+            textElement.style.strokeDasharray = '500';
+            textElement.style.strokeDashoffset = '500';
+            
+            // Add the text element to SVG
+            svgOutput.appendChild(textElement);
+        }
+
+        function restartAnimation() {
+            // Get the animation elements
+            const strokeAnimation = document.getElementById('stroke-animation');
+            const fillAnimation = document.getElementById('fill-animation');
+            
+            if (strokeAnimation && fillAnimation) {
+                // Restart the animations
+                strokeAnimation.beginElement();
+                fillAnimation.beginElement();
+            }
+        }
+
+        // Download functionality
+        downloadSvgBtn.addEventListener('click', () => {
+            const svgData = new XMLSerializer().serializeToString(svgOutput);
+            const blob = new Blob([svgData], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'text-animation.svg';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        downloadPngBtn.addEventListener('click', () => {
+            // For PNG conversion, we would normally use a library like dom-to-image
+            // This is a simplified version that just provides instructions
+            alert('For PNG conversion, you would need to use a library like dom-to-image or html2canvas. This demo focuses on SVG generation and download.');
+        });
+
+        // Initialize with default animation
+        window.addEventListener('load', generateAnimation);
+    </script>
+</body>
+</html>
