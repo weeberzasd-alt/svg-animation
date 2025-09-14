@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="font-family: 'Courier New', Courier, monospace;">Calculus Problem Solver</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.5.0/math.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffffff 0%, rgb(227, 226, 226) 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 0px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        
+        .input-section {
+            margin-bottom: 25px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 0px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #fefeff;
+            outline: none;
+        }
+        
+        .btn {
+            background-color: #191a1a;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 0px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background-color: rgb(70, 70, 71);
+        }
+        
+        .result-section {
+            background-color: #f8f9fa;
+            border-radius: 0px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #ebeeef;
+        }
+        
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+        
+        #result {
+            font-size: 18px;
+            color: #000000;
+            min-height: 30px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 0px;
+            border: 1px solid #eee;
+        }
+        
+        .examples {
+            margin-top: 30px;
+        }
+        
+        .examples h3 {
+            margin-bottom: 15px;
+            color: #000000;
+        }
+        
+        .example-list {
+            list-style-type: none;
+        }
+        
+        .example-list li {
+            padding: 10px;
+            background-color: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .example-list li:hover {
+            background-color: #e9ecef;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculus Problem Solver</h1>
+            <p class="subtitle">Solve derivatives and integrals step-by-step</p>
+        </header>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label for="function">Enter Function:</label>
+                <input type="text" id="function" placeholder="e.g., x^2 + sin(x)" autocomplete="off">
+            </div>
+            
+            <div class="input-group">
+                <label for="variable">With respect to variable:</label>
+                <input type="text" id="variable" value="x" placeholder="e.g., x, y, t">
+            </div>
+            
+            <div class="input-group">
+                <label for="operation">Select Operation:</label>
+                <select id="operation">
+                    <option value="derivative">Derivative</option>
+                    <option value="integral">Integral</option>
+                </select>
+            </div>
+            
+            <button id="solve-btn" class="btn">Solve</button>
+        </div>
+        
+        <div class="result-section">
+            <div class="result-title">Solution:</div>
+            <div id="result">Enter a problem and click "Solve"</div>
+        </div>
+        
+        <div class="examples">
+            <h3>Example Problems (click to try):</h3>
+            <ul class="example-list">
+                <li onclick="fillExample('x^2 + 3*x + 5', 'x', 'derivative')">Derivative of x² + 3x + 5</li>
+                <li onclick="fillExample('sin(x)', 'x', 'integral')">Integral of sin(x)</li>
+                <li onclick="fillExample('e^x * cos(x)', 'x', 'derivative')">Derivative of e^x * cos(x)</li>
+                <li onclick="fillExample('1/(x^2 + 1)', 'x', 'integral')">Integral of 1/(x² + 1)</li>
+                <li onclick="fillExample('log(x)', 'x', 'derivative')">Derivative of ln(x)</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Calculus Problem Solver &copy; 2023 | Using math.js library</p>
+    </footer>
+
+    <script>
+        // Function to fill the form with example problems
+        function fillExample(func, variable, operation) {
+            document.getElementById('function').value = func;
+            document.getElementById('variable').value = variable;
+            document.getElementById('operation').value = operation;
+        }
+        
+        // Function to solve the calculus problem
+        function solveProblem() {
+            const functionInput = document.getElementById('function').value;
+            const variable = document.getElementById('variable').value || 'x';
+            const operation = document.getElementById('operation').value;
+            const resultElement = document.getElementById('result');
+            
+            if (!functionInput) {
+                resultElement.innerHTML = '<span style="color: #e74c3c;">Please enter a function</span>';
+                return;
+            }
+            
+            try {
+                let result;
+                if (operation === 'derivative') {
+                    result = math.derivative(functionInput, variable).toString();
+                    resultElement.innerHTML = `\\[\\frac{d}{d${variable}}(${functionInput}) = ${result}\\]`;
+                } else {
+                    // For integrals, we'll use a numerical approximation since math.js doesn't have symbolic integration
+                    resultElement.innerHTML = `\\[\\int ${functionInput}\\, d${variable} = \\text{${math.integrate(functionInput, variable)}}\\]`;
+                }
+                
+                // Render LaTeX output if available
+                if (typeof MathJax !== 'undefined') {
+                    MathJax.typeset();
+                }
+            } catch (error) {
+                resultElement.innerHTML = `<span style="color: #e74c3c;">Error: ${error.message}</span>`;
+            }
+        }
+        
+        // Event listener for the solve button
+        document.getElementById('solve-btn').addEventListener('click', solveProblem);
+        
+        // Allow pressing Enter to solve
+        document.getElementById('function').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                solveProblem();
+            }
+        });
+    </script>
+    
+    <!-- Load MathJax for LaTeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

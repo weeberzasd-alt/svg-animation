@@ -1,0 +1,1001 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Canvas Scholars Network</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<style>
+    body {
+  position: relative;
+  margin: 0;  /* optional: reset default margin */
+  padding: 0;
+  overflow-x: hidden;
+}
+  html {
+    scroll-behavior: smooth;
+  }
+
+  svg {
+    width: 1000px;
+    
+    display: block;
+    margin: 0px auto;
+  }
+  path {
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  #home {
+  position: absolute; /* instead of relative */
+  top: 143px;         /* set vertical position explicitly */
+  left: 450px;        /* set horizontal position explicitly */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 20;        /* make sure it's above other elements */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: black;
+}
+
+#home::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 11.5px;
+  width: 0;
+  height: 2.8px;
+  background: black;
+  border-radius: 3px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+#home:hover::after {
+  width: 60%;
+  transform: translateX(-50%) scaleX(1);
+}
+
+  #logo {
+  display: block;       /* removes any inline spacing */
+  margin: 0 0 5px 150px; /* top 0, right 0, bottom 5px, left 150px to match padding-left */
+  height: 170px;
+  position: relative;    /* keep it relative */
+  z-index: 10;
+  background: transparent;
+  border: none;
+}
+
+#about {
+  position: absolute; /* instead of relative */
+  top: 143px;         /* set vertical position explicitly */
+  left:600px;        /* set horizontal position explicitly */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 20;        /* make sure it's above other elements */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: black;
+}
+
+#about::after {
+  content: '';
+  position: absolute;
+  left: 60%;
+  bottom: 11.5px;
+  width: 0;
+  height: 2.8px;
+  background: black;
+  border-radius: 3px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+#about:hover::after {
+  width: 60%;
+  transform: translateX(-66%) scaleX(1);
+}
+
+#contact {
+  position: absolute; /* instead of relative */
+  top: 143px;         /* set vertical position explicitly */
+  left: 750px;        /* set horizontal position explicitly */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 20;        /* make sure it's above other elements */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: black;
+}
+
+#contact::after {
+  content: '';
+  position: absolute;
+  left: 60%;
+  bottom: 11.5px;
+  width: 0;
+  height: 2.8px;
+  background: black;
+  border-radius: 3px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+#contact:hover::after {
+  width: 60%;
+  transform: translateX(-66%) scaleX(1);
+}
+
+#rabbit{
+    height: 145px;
+     width: 200;  
+     padding-left: 40%;
+  padding-top: 40px;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 1200px) {
+  svg {
+    width: 90%;
+  }
+  
+  #logo {
+    margin: 0 auto 5px;
+    height: 140px;
+    display: block;
+  }
+  
+  #home, #about, #contact {
+    position: static;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    transform: none !important;
+  }
+  
+  #div1 h {
+    font-size: 32px !important;
+    padding-left: 0 !important;
+    text-align: center;
+    display: block;
+    width: 100%;
+  }
+  
+  #div1 p {
+    font-size: 16px !important;
+    padding-left: 10% !important;
+    padding-right: 10% !important;
+    text-align: center;
+  }
+  
+  #rabbit {
+    padding-left: 20%;
+    height: 100px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #logo {
+    height: 100px;
+  }
+  
+  #div1 h {
+    font-size: 28px !important;
+  }
+  
+  #div1 p {
+    font-size: 14px !important;
+    padding-left: 5% !important;
+    padding-right: 5% !important;
+  }
+  
+  #rabbit {
+    padding-left: 25%;
+    height: 100px;
+  }
+  
+  #aboutSection p, #contactSection p, #contactSection p2 {
+    padding: 0 20px !important;
+    font-size: 16px !important;
+  }
+  
+  .contact-card {
+    max-width: 90% !important;
+    margin: 1rem auto !important;
+    padding: 15px !important;
+  }
+  
+  .contact-row {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  .contact-actions {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  footer {
+    font-size: 12px;
+    padding: 10px 5px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #logo {
+    height: 80px;
+  }
+  
+  #div1 h {
+    font-size: 24px !important;
+  }
+  
+  #div1 p {
+    font-size: 12px !important;
+  }
+  
+  #rabbit {
+    padding-left: 20%;
+    height: 80px;
+  }
+  
+  #home, #about, #contact {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+  
+  #aboutSection p, #contactSection p, #contactSection p2 {
+    font-size: 14px !important;
+  }
+}
+
+/* Mobile navigation toggle */
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+  
+  #home, #about, #contact {
+    display: none;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .menu-open #home, 
+  .menu-open #about, 
+  .menu-open #contact {
+    display: block;
+    margin: 10px auto;
+  }
+}
+
+</style>
+</head>
+<body>
+
+    <img id="logo" src="logo.png" alt="Logo" />
+<button class="mobile-menu-toggle" style="font-family: 'Courier New', Courier, monospace;">☰</button>
+
+<svg id="morphSVG" viewBox="0 0 4164 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Top lines -->
+  <path id="topStroke" d="M0.978027 7.66925C3101.7 7.66925 4068.28 7.66925 4163.98 7.66925" stroke="black" stroke-width="14"/>
+  <path id="topStrokeFaint" d="M0.978027 7.66925C3101.7 7.66925 4068.28 7.66925 4163.98 7.66925" stroke="black" stroke-opacity="0.2" stroke-width="14"/>
+  
+  <!-- Bottom lines with reduced initial y and stroke width -->
+  <path id="bottomStroke" d="M144 25.47C3060 25.47 3969 25.47 4059 25.47" stroke="black" stroke-width="7"/>
+  <path id="bottomStrokeFaint" d="M144 25.47C3060 25.47 3969 25.47 4059 25.47" stroke="black" stroke-opacity="0.2" stroke-width="7"/>
+</svg>
+
+<button id="home" style="font-family: 'Courier New', Courier, monospace; font-size: 20px; ">Home</button>
+
+<button id="about" style="font-family: 'Courier New', Courier, monospace; font-size: 20px; ">About</button>
+
+<button id="contact" style="font-family: 'Courier New', Courier, monospace; font-size: 20px; ">Contact</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script>
+  // Mobile menu toggle functionality
+  document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+    document.body.classList.toggle('menu-open');
+  });
+
+  const topY = 7.67;
+  const bottomYStart = 25.47;        // updated initial bottom line y (closer to top)
+  const bottomYEnd = topY + 250;     // 257.67 final bottom line y
+
+  // Original bottom line x points
+  const startX = 144;
+  const cp1X = 3060;
+  const cp2X = 3969;
+  const endX = 4059;
+
+  const length = endX - startX; // 3915
+  const shrinkPercent = 0.05; // 5%
+  const shrinkHalf = shrinkPercent / 2; // 2.5%
+
+  // New start and end x after shrinking from both ends
+  const newStartX = startX + length * shrinkHalf; // 241.875
+  const newEndX = endX - length * shrinkHalf;     // 3961.125
+
+  // Scale control points relative to new length
+  const newLength = length * (1 - shrinkPercent); // 3719.25
+
+  // Old control points relative to startX
+  const cp1Rel = cp1X - startX; // 2916
+  const cp2Rel = cp2X - startX; // 3825
+
+  // Scale relative control points to new length and offset by newStartX
+  const newCp1X = newStartX + cp1Rel * (newLength / length); // 3012.075
+  const newCp2X = newStartX + cp2Rel * (newLength / length); // 3875.625
+
+  const morphTo = {
+    topStroke: `M0 ${topY}C3100.72 ${topY} 4067.3 ${topY} 4163 ${topY}`,
+    topStrokeFaint: `M0 ${topY}C3100.72 ${topY} 4067.3 ${topY} 4163 ${topY}`,
+    bottomStroke: `M${newStartX} ${bottomYEnd}C${newCp1X} ${bottomYEnd} ${newCp2X} ${bottomYEnd} ${newEndX} ${bottomYEnd}`,
+    bottomStrokeFaint: `M${newStartX} ${bottomYEnd}C${newCp1X} ${bottomYEnd} ${newCp2X} ${bottomYEnd} ${newEndX} ${bottomYEnd}`
+  };
+
+  const button = document.getElementById('startMorph');
+
+  home.addEventListener('click', () => {
+    // Close mobile menu if open
+    document.body.classList.remove('menu-open');
+
+    // Hide aboutSection immediately
+    document.getElementById('aboutSection').style.display = 'none';
+    document.getElementById('contactSection').style.display = 'none';
+
+    // Animate SVG morph
+    anime({
+      targets: ['#topStroke', '#topStrokeFaint', '#bottomStroke', '#bottomStrokeFaint'],
+      d: (el) => morphTo[el.id],
+      duration: 500,
+      easing: 'easeInOutQuad'
+    });
+
+    // Animate bottom stroke width
+    anime({
+      targets: ['#bottomStroke', '#bottomStrokeFaint'],
+      strokeWidth: [7, 14],
+      duration: 500,
+      easing: 'easeInOutQuad'
+    });
+
+    // Logo animation - only if not on mobile
+    if (window.innerWidth > 1200) {
+      anime({
+        targets: '#logo',
+        translateX: 420,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+
+      anime({
+        targets: '#home',
+        translateX: 20,
+        translateY: 45,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+
+      anime({
+        targets: '#about',
+        translateY: 45,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+      
+      anime({
+        targets: '#contact',
+        translateX: 0,
+        translateY: 45,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+    }
+
+    // Fade out div1, then fade in homeSection
+    anime({
+      targets: '#div1',
+      opacity: [1, 0],
+      scale: [1, 0.95],
+      duration: 400,
+      easing: 'easeInOutQuad',
+      complete: () => {
+        document.getElementById('div1').style.display = 'none';
+        document.getElementById('homeSection').style.display = 'block';
+
+        anime({
+          targets: '#homeSection',
+          opacity: [0, 1],
+          scale: [0.95, 1],
+          duration: 400,
+          easing: 'easeInOutQuad'
+        });
+      }
+    });
+  });
+
+  about.addEventListener('click', () => {
+    // Close mobile menu if open
+    document.body.classList.remove('menu-open');
+
+    // Hide homeSection immediately
+    document.getElementById('homeSection').style.display = 'none';
+    document.getElementById('contactSection').style.display = 'none';
+    
+    // Animate SVG morph
+    anime({
+      targets: ['#topStroke', '#topStrokeFaint', '#bottomStroke', '#bottomStrokeFaint'],
+      d: (el) => morphTo[el.id],
+      duration: 500,
+      easing: 'easeInOutQuad'
+    });
+
+    // Animate bottom stroke width
+    anime({
+      targets: ['#bottomStroke', '#bottomStrokeFaint'],
+      strokeWidth: [7, 14],
+      duration: 500,
+      easing: 'easeInOutQuad'
+    });
+
+    // Logo animation - only if not on mobile
+    if (window.innerWidth > 1200) {
+      anime({
+        targets: '#logo',
+        translateX: 420,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+
+      anime({
+        targets: '#home',
+        translateX: 20,
+        translateY: 45,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+
+      anime({
+        targets: '#about',
+        translateX: 0,
+        translateY: 45,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+
+      anime({
+        targets: '#contact',
+        translateX: 0,
+        translateY: 45,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+    }
+
+    // Fade out div1, then fade in aboutSection
+    anime({
+      targets: '#div1',
+      opacity: [1, 0],
+      scale: [1, 0.95],
+      duration: 400,
+      easing: 'easeInOutQuad',
+      complete: () => {
+        document.getElementById('div1').style.display = 'none';
+        document.getElementById('aboutSection').style.display = 'block';
+
+        anime({
+          targets: '#aboutSection',
+          opacity: [0, 1],
+          scale: [0.95, 1],
+          duration: 400,
+          easing: 'easeInOutQuad'
+        });
+      }
+    });
+  });
+
+  contact.addEventListener('click', () => {
+    // Close mobile menu if open
+    document.body.classList.remove('menu-open');
+
+    // Hide homeSection immediately
+    document.getElementById('homeSection').style.display = 'none';
+    document.getElementById('aboutSection').style.display = 'none';
+    
+    // Animate SVG morph
+    anime({
+      targets: ['#topStroke', '#topStrokeFaint', '#bottomStroke', '#bottomStrokeFaint'],
+      d: (el) => morphTo[el.id],
+      duration: 500,
+      easing: 'easeInOutQuad'
+    });
+
+    // Animate bottom stroke width
+    anime({
+      targets: ['#bottomStroke', '#bottomStrokeFaint'],
+      strokeWidth: [7, 14],
+      duration: 500,
+      easing: 'easeInOutQuad'
+    });
+
+    // Logo animation - only if not on mobile
+    if (window.innerWidth > 1200) {
+      anime({
+        targets: '#logo',
+        translateX: 420,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+
+      anime({
+        targets: '#home',
+        translateX: 20,
+        translateY: 45,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+
+      anime({
+        targets: '#about',
+        translateX: 0,
+        translateY: 45,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+
+      anime({
+        targets: '#contact',
+        translateX: 0,
+        translateY: 45,
+        duration: 500,
+        easing: 'easeInOutQuad'
+      });
+    }
+
+    // Fade out div1, then fade in contactSection
+    anime({
+      targets: '#div1',
+      opacity: [1, 0],
+      scale: [1, 0.95],
+      duration: 400,
+      easing: 'easeInOutQuad',
+      complete: () => {
+        document.getElementById('div1').style.display = 'none';
+        document.getElementById('contactSection').style.display = 'block';
+
+        anime({
+          targets: '#contactSection',
+          opacity: [0, 1],
+          scale: [0.95, 1],
+          duration: 400,
+          easing: 'easeInOutQuad'
+        });
+      }
+    });
+  });
+
+  const logo = document.getElementById('logo');
+
+  logo.style.cursor = 'pointer'; // show pointer on hover
+
+  logo.addEventListener('click', () => {
+    // Close mobile menu if open
+    document.body.classList.remove('menu-open');
+
+    // Hide aboutSection immediately
+    document.getElementById('aboutSection').style.display = 'none';
+    document.getElementById('contactSection').style.display = 'none';
+
+    // Fade out homeSection
+    anime({
+      targets: '#homeSection',
+      opacity: [1, 0],
+      scale: [1, 0.95],
+      duration: 400,
+      easing: 'easeInOutQuad',
+      complete: () => {
+        document.getElementById('homeSection').style.display = 'none';
+        document.getElementById('div1').style.display = 'block';
+
+        // Fade in div1
+        anime({
+          targets: '#div1',
+          opacity: [0, 1],
+          scale: [0.95, 1],
+          duration: 400,
+          easing: 'easeInOutQuad'
+        });
+
+        // Reset SVG paths to original
+        anime({
+          targets: ['#topStroke', '#topStrokeFaint', '#bottomStroke', '#bottomStrokeFaint'],
+          d: (el) => {
+            // original paths (reverse of morphTo)
+            switch(el.id) {
+              case 'topStroke':
+              case 'topStrokeFaint':
+                return `M0.978027 7.66925C3101.7 7.66925 4068.28 7.66925 4163.98 7.66925`;
+              case 'bottomStroke':
+              case 'bottomStrokeFaint':
+                return `M144 25.47C3060 25.47 3969 25.47 4059 25.47`;
+            }
+          },
+          duration: 500,
+          easing: 'easeInOutQuad'
+        });
+
+        // Reset bottom stroke width
+        anime({
+          targets: ['#bottomStroke', '#bottomStrokeFaint'],
+          strokeWidth: [14, 7],
+          duration: 500,
+          easing: 'easeInOutQuad'
+        });
+
+        // Reset logo position - only if not on mobile
+        if (window.innerWidth > 1200) {
+          anime({
+            targets: '#logo',
+            translateX: 0,
+            duration: 500,
+            easing: 'easeInOutQuad'
+          });
+
+          // Reset home button position
+          anime({
+            targets: '#home',
+            translateX: 0,
+            translateY: 0,
+            duration: 500,
+            easing: 'easeInOutQuad'
+          });
+
+          anime({
+            targets: '#about',
+            translateX: 0,
+            translateY: 0,
+            duration: 500,
+            easing: 'easeInOutQuad'
+          });
+
+          anime({
+            targets: '#contact',
+            translateX: 0,
+            translateY: 0,
+            duration: 500,
+            easing: 'easeInOutQuad'
+          });
+        }
+      }
+    });
+  });
+</script>
+<div id="div1" >
+<div>
+    <h style="font-family: 'Courier New', Courier, monospace; font-size: 50px; padding-left: 32%;" id="f1">Welcome To Heven</h>
+    <p style="font-family: 'Courier New', Courier, monospace; font-size: 20px; padding-left: 25%;" id="p1">Your ultimate destination for information and entertainment</p>
+</div>
+<img src="rabbit.gif" alt="rabbit" id="rabbit">
+</div>
+<!--
+  This is a THE HOME SECTION IN HTML
+-->
+<div id="homeSection" style="display: none; text-align:center; padding:20px;">
+    <!-- Button Row -->
+    <div id="navRow" style="margin-bottom:20px; display:flex; justify-content:center; gap:40px;">
+      <span class="navBtn" data-page="derivative.html">Derivative</span>
+      <span class="navBtn" data-page="svg.html">SVG Morph</span>
+    </div>
+  
+    <!-- Content Container -->
+    <div id="contentArea" style="opacity:0; transition:opacity 0.5s ease; min-height:500px;"></div>
+  </div>
+  
+  <style>
+    /* Button styling (text only, underline on hover) */
+    .navBtn {
+      cursor: pointer;
+      font-size: 18px;
+      position: relative;
+      color: black;
+      transition: color 0.3s ease;
+    }
+  
+    .navBtn::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0;
+      bottom: -4px;
+      background: black;
+      transition: width 0.3s ease;
+    }
+  
+    .navBtn:hover::after {
+      width: 100%;
+    }
+  
+    /* Active button underline stays */
+    .navBtn.active::after {
+      width: 100%;
+    }
+  </style>
+  
+  <script>
+    const contentArea = document.getElementById("contentArea");
+    const buttons = document.querySelectorAll(".navBtn");
+  
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        // Remove active state from all buttons
+        buttons.forEach(b => b.classList.remove("active"));
+        // Add active state to clicked button
+        btn.classList.add("active");
+  
+        const page = btn.getAttribute("data-page");
+  
+        // Fade out old content
+        contentArea.style.opacity = "0";
+  
+        setTimeout(() => {
+          // Load the page inside an iframe
+          contentArea.innerHTML = `<iframe src="${page}" style="width:100%; height:600px; border:none;"></iframe>`;
+          // Fade in new content
+          setTimeout(() => contentArea.style.opacity = "1", 50);
+        }, 400); // Wait for fade out
+      });
+    });
+  </script>
+  
+  
+
+  <div id="aboutSection" style="display: none; text-align:center;">
+    <p style="font-family: 'Courier New', Courier, monospace;    
+    padding: 0 90px;
+    font-size: 18px;       /* slightly bigger */
+    font-weight: 500;      /* semi-bold */
+    line-height: 1.6;      /* more space between lines */
+    letter-spacing: 0.5px; /* more space between letters */
+    text-align: justify;   /* neat left/right alignment */
+    text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.1); /* subtle shadow for depth */
+    
+    ">Two unemployed friend with the goal of sharing the data they have been collecting for many years and the data you are seeking for.
+        Weeberzasd and Dev are the founders as well as the developers of this Ultimate Network. 
+        
+        We created this Ultimate Network to share the information about the ***** you nerds couldn't find in the internet. Enjoy the Ultimate Network we created.</p>
+</div>
+
+<div id="contactSection" style="display: none; text-align:center;">
+    <p style="font-family: 'Courier New', Courier, monospace;    
+    padding: 0 90px;
+    font-size: 18px;       /* slightly bigger */
+    font-weight: 500;      /* semi-bold */
+    line-height: 1.6;      /* more space between lines */
+    letter-spacing: 0.5px; /* more space between letters */
+    text-align: justify;   /* neat left/right alignment */
+    text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.1); /* subtle shadow for depth */">
+        We are leaving our contact so that you nerds can give feedback to us.
+</p>
+
+<style>
+  .contact-card {
+    max-width: 420px;
+    margin: 2rem auto;
+    padding-top: 0px;
+    padding-right: 20px;
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+    font-family: 'Courier New', monospace;
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  .contact-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin: 0.6rem 0;
+  }
+
+  .contact-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-info {
+    flex: 1 1 auto;
+    font-size: 0.98rem;
+    word-break: break-all;
+  }
+
+  .contact-actions {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .btn {
+    background: transparent;
+    color: #000;
+    border: 1px solid #000;
+    padding: 6px 8px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn:focus { outline: 3px solid rgba(0,0,0,0.12); }
+
+  a.contact-link {
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  a.contact-link:hover { text-decoration: underline; }
+
+  @media (max-width:420px){
+    .contact-card { margin: 1rem; padding: 0.9rem; }
+    .contact-icon{ width:28px;height:28px; flex:0 0 28px; }
+  }
+</style>
+
+<div class="contact-card" role="region" aria-label="Contact information">
+  <div style="font-weight:700; margin-bottom:0.25rem;">Contact</div>
+
+  <!-- Email row 1 -->
+  <div class="contact-row">
+    <div class="contact-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 8.5v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+        <path d="M21 8.5l-9 6-9-6"/>
+      </svg>
+    </div>
+
+    <div class="contact-info">
+      <a class="contact-link" href="mailto:weeberzasd@gmail.com" aria-label="Send email to weeberzasd@gmail.com">weeberzasd@gmail.com</a>
+    </div>
+
+    <div class="contact-actions">
+      <button class="btn" type="button" aria-label="Copy email" data-copy="weeberzasd@gmail.com">Copy</button>
+    </div>
+  </div>
+
+  <!-- Email row 2 -->
+  <div class="contact-row">
+    <div class="contact-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 8.5v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+        <path d="M21 8.5l-9 6-9-6"/>
+      </svg>
+    </div>
+
+    <div class="contact-info">
+      <a class="contact-link" href="mailto:lordnly090@gmail.com" aria-label="Send email to lordnly090@gmail.com">lordnly090@gmail.com</a>
+    </div>
+
+    <div class="contact-actions">
+      <button class="btn" type="button" aria-label="Copy email" data-copy="lordnly090@gmail.com">Copy</button>
+    </div>
+  </div>
+
+  <!-- Discord row -->
+  <div class="contact-row">
+    <div class="contact-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 10.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+        <path d="M16 10.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+        <path d="M4.5 6.5c0 0 2-2 7.5-2s7.5 2 7.5 2v8c0 0-2 2-7.5 2S4.5 16.5 4.5 16.5v-10z"/>
+      </svg>
+    </div>
+
+    <div class="contact-info">
+      <a class="contact-link" href="https://discord.gg/KuEFfXYy4S" target="_blank" rel="noopener" aria-label="Open Discord server">Discord server</a>
+    </div>
+
+    <div class="contact-actions">
+      <button class="btn" type="button" aria-label="Copy discord link" data-copy="https://discord.gg/tjaQe5Sr">Copy</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('button[data-copy]');
+    if(!btn) return;
+    const text = btn.getAttribute('data-copy');
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied';
+        setTimeout(() => btn.textContent = 'Copy', 1400);
+      }).catch(() => fallbackCopy(text, btn));
+    } else {
+      fallbackCopy(text, btn);
+    }
+  });
+
+  function fallbackCopy(text, btn){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      btn.textContent = 'Copied';
+      setTimeout(() => btn.textContent = 'Copy', 1400);
+    } catch(e){
+      alert('Copy failed — please copy manually: ' + text);
+    }
+    document.body.removeChild(ta);
+  }
+</script>
+
+<p2 style="font-family: 'Courier New', Courier, monospace;    
+padding: 0 90px;
+font-size: 18px;       /* slightly bigger */
+font-weight: 500;      /* semi-bold */
+line-height: 1.6;      /* more space between lines */
+letter-spacing: 0.5px; /* more space between letters */
+text-align: justify;   /* neat left/right alignment */
+text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.1); /* subtle shadow for depth */">BTW we might not check the mails you nerds sent us. This is the reason we created our own discord server. 
+  Join our discord server for other exclusive details.</p2>
+</div>
+
+<footer style="
+ position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 10px;      /* set a max height */
+  overflow-y: auto;      /* enable vertical scroll if content overflows */
+  background-color: black;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  padding: 15px 10px;
+  z-index: 1000;
+  ">
+  &copy; 2025 Canvas Scholars Network | Contact: weeberzasd@gmail.com
+</footer>
+
+<!-- this is the user account section  -->
+<!-- User Profile Section -->
+
+
+</body>
+</html>
